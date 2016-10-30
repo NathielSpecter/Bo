@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Newtonsoft.Json;
 
 namespace Bo
 {
@@ -12,6 +13,8 @@ namespace Bo
     public class MainActivity : Activity
     {
         int count = 1;
+
+        public BoletimService boletim = new BoletimService();
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -24,8 +27,22 @@ namespace Bo
             // and attach an event to it
             Button button = FindViewById<Button>(Resource.Id.MyButton);
 
-            button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+
+            button.Click += async delegate {
+                var response = await boletim.GET("TOKEN", 1, 2, 3);
+                if(response.IsSuccessStatusCode)
+                {
+                    //var result = JsonConvert.DeserializeObject<SuaProperty>(await response.Content.ReadAsStringAsync());
+                }
+                else
+                {
+                  
+                }
+            };
+
+            
         }
+
     }
 }
 
